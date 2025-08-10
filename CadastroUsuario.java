@@ -1,3 +1,4 @@
+// TRABALHO FEITO POR: Pyetro Fabrício Peterlini - 2°DS MTEC manhã
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -14,14 +15,25 @@ public class CadastroUsuario {
         JLabel labelNomeCompleto = new JLabel("Nome Completo:");
         JLabel labelEmail = new JLabel("Email:");
         JLabel labelIdade = new JLabel("Idade:");
+        JLabel labelSexo = new JLabel("Sexo: ");
         
         // Campos de Texto
         JTextField campoNomeCompleto = new JTextField(35);
         JTextField campoEmail = new JTextField(25);
         JTextField campoIdade = new JTextField(3);
 
-        // Botão
+        // Botões de selção do sexo
+        JRadioButton botãoMasculino = new JRadioButton("Masculino");
+        JRadioButton botãoFeminino = new JRadioButton("Feminino");
+
+        // ButtonGroup para obrigar o usuário selecionar apenas 1
+        ButtonGroup grupoSexo = new ButtonGroup();
+        grupoSexo.add(botãoMasculino);
+        grupoSexo.add(botãoFeminino);
+        
+        // Botões
         JButton botaoCadastrar = new JButton("Cadastrar");
+        JButton botaoLimpar = new JButton("Limpar");
         
         // Ação do botão
         botaoCadastrar.addActionListener(new ActionListener() {
@@ -29,7 +41,25 @@ public class CadastroUsuario {
                 String nome = campoNomeCompleto.getText();
                 String email = campoEmail.getText();
                 String idade = campoIdade.getText();
-                JOptionPane.showMessageDialog(frame, "Usuário Cadastrado:" + "\nNome: " + nome + "\nEmail: " + email + "\nIdade: " + idade);
+                String sexo = botãoMasculino.isSelected() ? "Masculino" : botãoFeminino.isSelected() ? "Feminino" : "";
+
+                    // Validação dos campos vazios
+                    if (nome.isEmpty() || email.isEmpty() || idade.isEmpty() || sexo.isEmpty()) {
+                        JOptionPane.showMessageDialog(frame, "Por favor preencha os campos corretamente", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                    // Exibe os dados cadastrados
+                        JOptionPane.showMessageDialog(frame, "Usuário Cadastrado:" + "\nNome: " + nome + "\nEmail: " + email + "\nIdade: " + idade + "\nSexo: " + sexo);
+                    }
+            }
+        });
+
+        // Botão de limpar as informações
+        botaoLimpar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                campoNomeCompleto.setText("");
+                campoEmail.setText("");
+                campoIdade.setText("");
+                grupoSexo.clearSelection();
             }
         });
 
@@ -40,7 +70,11 @@ public class CadastroUsuario {
         frame.add(campoEmail);
         frame.add(labelIdade);
         frame.add(campoIdade);
+        frame.add(labelSexo);
+        frame.add(botãoMasculino);
+        frame.add(botãoFeminino);
         frame.add(botaoCadastrar);
+        frame.add(botaoLimpar);
 
         // Exibir a janela
         frame.setVisible(true);
